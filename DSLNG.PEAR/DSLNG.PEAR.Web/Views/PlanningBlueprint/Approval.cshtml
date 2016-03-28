@@ -73,7 +73,7 @@
                             } else if (row.BusinessPostureIdentification.IsApproved) {
                                 return "Approved";
                             }else{
-                                return "On Progress";
+                                return "Prepare";
                             }
                         }
                     },
@@ -94,6 +94,7 @@
                          "data": null,
                          "defaultContent": '',
                          "mRender": function (data, type, row) {
+                             console.log(row);
                              if (row.MidtermStragetyPlanning.IsBeingReviewed) {
                                  return '@Html.ActionLink("Review", "MPFReview", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermStragetyPlanning.Id);
                              } else if (row.MidtermStragetyPlanning.IsRejected) {
@@ -101,8 +102,10 @@
                              }
                              else if (row.MidtermStragetyPlanning.IsApproved) {
                                  return "Approved";
-                             }else{
-                                return 'On Progress';
+                             } else if (!row.MidtermPhaseFormulation.IsLocked) {
+                                 return 'Prepare';
+                             } else {
+                                 return 'Locked';
                              }
                           }
                      },

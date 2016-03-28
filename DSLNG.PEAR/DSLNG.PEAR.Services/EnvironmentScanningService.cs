@@ -494,7 +494,6 @@ namespace DSLNG.PEAR.Services
             try
             {
                 var environmentsScanning = DataContext.EnvironmentsScannings.Include(x => x.PlanningBlueprint).First(x => x.Id == id);
-                environmentsScanning.IsLocked = true;
                 var businessPosture = DataContext.BusinessPostures.First(x => x.PlanningBlueprint.Id == environmentsScanning.PlanningBlueprint.Id);
                 businessPosture.IsLocked = false;
                 DataContext.SaveChanges();

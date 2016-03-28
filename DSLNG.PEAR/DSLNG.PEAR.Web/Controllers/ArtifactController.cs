@@ -16,6 +16,7 @@ using DSLNG.PEAR.Services.Requests.Kpi;
 using PeriodeType = DSLNG.PEAR.Data.Enums.PeriodeType;
 using DSLNG.PEAR.Services.Requests.Highlight;
 using System.Data.SqlClient;
+using NReco.ImageGenerator;
 
 namespace DSLNG.PEAR.Web.Controllers
 {
@@ -1314,6 +1315,16 @@ namespace DSLNG.PEAR.Web.Controllers
             TempData["IsSuccess"] = resp.IsSuccess;
             TempData["Message"] = resp.Message;
             return RedirectToAction("Index");
-        } 
+        }
+
+        public ActionResult Print(int id) { 
+            var secretNumber = Guid.NewGuid().ToString();
+            ArtifactCloneController.SecretNumber = secretNumber;
+            var displayUrl = Url.Action("Display", "ArtifactClone", new { id = id, secretNumber = secretNumber },this.Request.Url.Scheme);
+            var htmlToImageConverter = new HtmlToImageConverter();
+            htmlToImageConverter.Height = 350;
+            htmlToImageConverter.Width = 500;
+            return File(htmlToImageConverter.GenerateImageFromFile(displayUrl, ImageFormat.Png), "image/png","TheGraph.png");
+        }
     }
 }

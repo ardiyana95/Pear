@@ -337,10 +337,10 @@ namespace DSLNG.PEAR.Services
                     switch (keyOutput.ConversionType)
                     {
                         case ConversionType.Division:
-                            resp.Actual = (double.Parse(resp.Forecast) / keyOutput.ConversionValue.Value).ToString();
+                            resp.Forecast = (double.Parse(resp.Forecast) / keyOutput.ConversionValue.Value).ToString();
                             break;
                         default:
-                            resp.Actual = (double.Parse(resp.Forecast) * keyOutput.ConversionValue.Value).ToString();
+                            resp.Forecast = (double.Parse(resp.Forecast) * keyOutput.ConversionValue.Value).ToString();
                             break;
                     }
                 }

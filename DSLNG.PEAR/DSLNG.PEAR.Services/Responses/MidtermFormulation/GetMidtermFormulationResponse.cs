@@ -10,6 +10,10 @@ namespace DSLNG.PEAR.Services.Responses.MidtermFormulation
             MidtermFormulationStages = new List<MidtermFormulationStage>();
         }
         public int Id { get; set; }
+        public int MidtermPlanningId { get; set; }
+        public bool IsApproved { get; set; }
+        public bool IsRejected { get; set; }
+        public bool IsBeingReviewed { get; set; }
         public bool IsLocked { get; set; }
         public Posture ConstructionPosture { get; set; }
         public Posture OperationPosture { get; set; }
@@ -22,6 +26,7 @@ namespace DSLNG.PEAR.Services.Responses.MidtermFormulation
             }
             public int Id { get; set; }
             public string Title { get; set; }
+            public int Order { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
             public IList<MidtermPhaseDescription> Descriptions { get; set; }

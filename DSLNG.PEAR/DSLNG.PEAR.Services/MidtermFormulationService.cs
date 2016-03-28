@@ -25,6 +25,7 @@ namespace DSLNG.PEAR.Services
                 .Include(x => x.MidtermPhaseFormulation.MidtermPhaseFormulationStages)
                 .Include(x => x.MidtermPhaseFormulation.MidtermPhaseFormulationStages.Select(y => y.Descriptions))
                 .Include(x => x.MidtermPhaseFormulation.MidtermPhaseFormulationStages.Select(y => y.KeyDrivers))
+                .Include(x => x.MidtermStragetyPlanning)
                 .Include(x => x.BusinessPostureIdentification)
                 .Include(x => x.BusinessPostureIdentification.Postures)
                 .Include(x => x.BusinessPostureIdentification.Postures.Select(y => y.DesiredStates))
@@ -34,6 +35,10 @@ namespace DSLNG.PEAR.Services
             {
                 Id = planningBlueprint.MidtermPhaseFormulation.Id,
                 IsLocked = planningBlueprint.MidtermPhaseFormulation.IsLocked,
+                IsApproved = planningBlueprint.MidtermStragetyPlanning.IsApproved,
+                IsRejected = planningBlueprint.MidtermStragetyPlanning.IsRejected,
+                IsBeingReviewed = planningBlueprint.MidtermStragetyPlanning.IsBeingReviewed,
+                MidtermPlanningId = planningBlueprint.MidtermStragetyPlanning.Id,
                 ConstructionPosture = planningBlueprint.BusinessPostureIdentification.Postures.First(x => x.Type == PostureType.Construction).MapTo<GetMidtermFormulationResponse.Posture>(),
                 OperationPosture = planningBlueprint.BusinessPostureIdentification.Postures.First(x => x.Type == PostureType.Operation).MapTo<GetMidtermFormulationResponse.Posture>(),
                 DecommissioningPosture = planningBlueprint.BusinessPostureIdentification.Postures.First(x => x.Type == PostureType.Decommissioning).MapTo<GetMidtermFormulationResponse.Posture>(),
@@ -42,10 +47,11 @@ namespace DSLNG.PEAR.Services
         }
 
 
-        public AddStageResponse AddStage(AddStageRequest request)
+        public AddStageResponse SaveStage(AddStageRequest request)
         {
             try
             {
+
                 var stage = request.MapTo<MidtermPhaseFormulationStage>();
                 var formulation = new MidtermPhaseFormulation { Id = request.MidtermFormulationId };
                 DataContext.MidtermPhaseFormulations.Attach(formulation);
@@ -53,15 +59,49 @@ namespace DSLNG.PEAR.Services
                 var interval = stage.EndDate.Value.Year - stage.StartDate.Value.Year + 1;
                 var startYear = stage.StartDate.Value.Year;
                 var endYear = stage.EndDate.Value.Year;
-                for (var i = 0; i < interval; i++) {
-                    var planning = new MidtermStrategicPlanning { 
-                        Title = "Annual Objective Planning",
-                        StartDate = i == 0? stage.StartDate : new DateTime(startYear + i, 1, 1),
-                        EndDate = i == interval - 1? stage.EndDate : new DateTime(startYear + i, 12, 1)
-                    };
-                    stage.MidtermStrategicPlannings.Add(planning);
+                if (request.Id != 0)
+                {
+                    stage = DataContext.MidtermPhaseFormulationStages.Include(x => x.MidtermPhaseFormulation)
+                        .Include(x => x.MidtermStrategicPlannings)
+                        .First(x => x.Id == request.Id);
+                    request.MapPropertiesToInstance<MidtermPhaseFormulationStage>(stage);
+                    //delete unnecessary plannings
+                    foreach(var plan in stage.MidtermStrategicPlannings.ToList()){
+                        if (plan.StartDate < stage.StartDate || plan.EndDate > stage.EndDate) {
+                            stage.MidtermStrategicPlannings.Remove(plan);
+                        }
+                    }
+                    //add new strategic plannings
+                    for (var i = 0; i < interval; i++)
+                    {
+                        var planning = new MidtermStrategicPlanning
+                        {
+                            Title = "Annual Objective Planning",
+                            StartDate = i == 0 ? stage.StartDate : new DateTime(startYear + i, 1, 1),
+                            EndDate = i == interval - 1 ? stage.EndDate : new DateTime(startYear + i, 12, 1)
+                        };
+                        if (stage.MidtermStrategicPlannings.FirstOrDefault(x => x.StartDate == planning.StartDate &&
+                            x.EndDate == planning.EndDate) == null)
+                        {
+                            stage.MidtermStrategicPlannings.Add(planning);
+                        }
+                    }
                 }
-                DataContext.MidtermPhaseFormulationStages.Add(stage);
+                else
+                {
+
+                    for (var i = 0; i < interval; i++)
+                    {
+                        var planning = new MidtermStrategicPlanning
+                        {
+                            Title = "Annual Objective Planning",
+                            StartDate = i == 0 ? stage.StartDate : new DateTime(startYear + i, 1, 1),
+                            EndDate = i == interval - 1 ? stage.EndDate : new DateTime(startYear + i, 12, 1)
+                        };
+                        stage.MidtermStrategicPlannings.Add(planning);
+                    }
+                    DataContext.MidtermPhaseFormulationStages.Add(stage);
+                }
                 DataContext.SaveChanges();
                 return new AddStageResponse
                 {
@@ -69,6 +109,7 @@ namespace DSLNG.PEAR.Services
                     Message = "You have been successfully add new stage",
                     Id = stage.Id,
                     Title = stage.Title,
+                    Order = stage.Order,
                     Start = request.StartDate.HasValue ? request.StartDate.Value.ToString("MMM yyyy", CultureInfo.InvariantCulture) : "",
                     End = request.EndDate.HasValue? request.EndDate.Value.ToString("MMM yyyy", CultureInfo.InvariantCulture) : ""
                 };
@@ -239,7 +280,6 @@ namespace DSLNG.PEAR.Services
             try
             {
                 var midtermFormulation = DataContext.MidtermPhaseFormulations.Include(x => x.PlanningBlueprint).First(x => x.Id == id);
-                midtermFormulation.IsLocked = true;
                 var midtermPlanning = DataContext.MidtermStrategyPlannings.First(x => x.PlanningBlueprint.Id == midtermFormulation.PlanningBlueprint.Id);
                 midtermPlanning.IsLocked = false;
                 DataContext.SaveChanges();

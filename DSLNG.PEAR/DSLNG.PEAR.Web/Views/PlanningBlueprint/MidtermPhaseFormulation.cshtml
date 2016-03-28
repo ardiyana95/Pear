@@ -66,7 +66,7 @@ else
         <div class="row">
             <div class="col-md-12">
                 <h4 style="background-color: #00bfff;">Mid Term Phase Formulation 
-                @if (!Model.IsReviewer)
+                @if (!Model.IsReviewer && !Model.IsApproved && !Model.IsBeingReviewed && !Model.IsRejected)
                 {
                     <a class="add-formulation-stage" data-toggle="popover" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
                 }
@@ -74,7 +74,8 @@ else
             </div>
         </div>
         @{var count = Model.MidtermFormulationStages.Count;
-          <div class="row">
+          var items = Model.MidtermFormulationStages.OrderBy(x => x.Order).ToList();
+          <div class="row formulation-stages-wrapper">
         <table class="formulation-stages-table">
             <tr>
                 <th style="width:25%">&nbsp;</th>
@@ -82,18 +83,21 @@ else
                 <th style="width:25%">&nbsp;</th>
                 <th style="width:25%">&nbsp;</th>
             </tr>
-            @if (count == 0) { 
+            @if (count == 0)
+            { 
               <tr class="formulation-stages"></tr>
             }
-        @for (var i =0; i< count; i+= 4) { 
+        @for (var i = 0; i < count; i += 4)
+        { 
             <tr class="formulation-stages">
-                @for (var j = i; j<i+4; j++){
+                @for (var j = i; j < i + 4; j++)
+                {
                     if (j >= count) { break; }
-                    var item = Model.MidtermFormulationStages[j];
-                    <td data-id="@item.Id" class="formulation-stage">
+                    var item = items[j];
+                    <td data-id="@item.Id" data-order="@item.Order" class="formulation-stage">
                         <div>
-                          <div data-id="@item.Id" class="title">@item.Title
-                        @if (!Model.IsReviewer)
+                          <div data-id="@item.Id" class="title"><span class="popover-edit-stage" data-toggle="popover">@item.Title</span>
+                        @if (!Model.IsReviewer && !Model.IsApproved && !Model.IsBeingReviewed && !Model.IsRejected)
                         {
                             <a class="remove-item" href="/MidtermFormulation/DeleteStage"><i class="fa fa-minus"></i></a>
                         }
@@ -107,7 +111,7 @@ else
                         <div class="sub-title">
                             Description
                         </div>
-                        @if (!Model.IsReviewer)
+                        @if (!Model.IsReviewer && !Model.IsApproved && !Model.IsBeingReviewed && !Model.IsRejected)
                         {
                             <a data-toggle="popover" href="javascript:void(0)" class="add-definition" data-target="description"><i class="fa fa-plus"></i></a>
                         }
@@ -116,13 +120,13 @@ else
                         @foreach (var desc in item.Descriptions)
                         { 
                             <li data-id="@desc.Id"><span class="popover-edit-trigger" data-toggle="popover">@desc.Value</span>    @if (!Model.IsReviewer)
-                                                                  {<a class="remove-item" href="/MidtermFormulation/DeleteStageDesc"><i class="fa fa-minus"></i></a>}</li>
+                                                                                                                                  {<a class="remove-item" href="/MidtermFormulation/DeleteStageDesc"><i class="fa fa-minus"></i></a>}</li>
                         }
                     </ul>
                     <div class="defined-header key-driver">
                         <div class="sub-title">
                             Key Driver
-                           @if (!Model.IsReviewer)
+                           @if (!Model.IsReviewer && !Model.IsApproved && !Model.IsBeingReviewed && !Model.IsRejected)
                            {<a data-toggle="popover" href="javascript:void(0)" class="add-definition" data-target="key-driver"><i class="fa fa-plus"></i></a>}
                         </div>
                     </div>
@@ -130,7 +134,7 @@ else
                         @foreach (var keyDriver in item.KeyDrivers)
                         { 
                             <li data-id="@keyDriver.Id"><span class="popover-edit-trigger" data-toggle="popover">@keyDriver.Value</span>    @if (!Model.IsReviewer)
-                                                                            {<a class="remove-item" href="/MidtermFormulation/DeleteStageKey"><i class="fa fa-minus"></i></a>}</li>
+                                                                                                                                            {<a class="remove-item" href="/MidtermFormulation/DeleteStageKey"><i class="fa fa-minus"></i></a>}</li>
                         }
                     </ul>
                             </div>
@@ -248,6 +252,7 @@ else
 <div class="formulation-stage-form">
     <form action="/MidtermFormulation/AddStage">
         <input type="hidden" name="MidtermFormulationId" value="@Model.Id" />
+        <input type="hidden" name="Id" />
         <label style="width:50px">Title</label>
         <input type="text" name="Title" required="required"/>
         <div style="position: relative">
@@ -258,6 +263,8 @@ else
             <label style="width:50px">End</label>
             <input type="text" name="EndDate" class="monthpicker" required="required" />
         </div>
+        <label style="width:50px">Order</label>
+        <input type="number" name="Order" required="required"/>
         <input type="submit" class="btn btn-primary add-midterm-stage" value="submit" />
     </form>
 </div>
@@ -295,7 +302,7 @@ else
                 return $('.formulation-stage-form').html();
             }
         });
-        $('.add-formulation-stage').on('shown.bs.popover', function () {
+        $('.add-formulation-stage, .popover-edit-stage').on('shown.bs.popover', function () {
             $('.popover .monthpicker').datetimepicker({
                 format: "MM/YYYY"
             }).on('dp.change', function (e) {
@@ -319,9 +326,7 @@ else
             
             var startDate = $form.find('input[name="StartDate"]').val();
             var endDate = $form.find('input[name="EndDate"]').val();
-            console.log(startDate);
-            console.log(endDate);
-
+           
             var mStartDate = moment('01/' + startDate, "DD/MM/YYYY");
             var mEndDate = moment('01/' + endDate, "DD/MM/YYYY");
 
@@ -332,33 +337,58 @@ else
             if (mEndDate.isBefore(mStartDate)) {
                 return alert("End Date can't be earlier than Start Date!");
             }
-            if ($('.formulation-stages:last-child .formulation-stage:last-child').length) {
-                var latestDate = moment('01 ' + $('.formulation-stages:last-child .formulation-stage:last-child .end').html().trim(), "DD MMM YYYY");
-                if (mStartDate.isBefore(latestDate)) {
-                    return alert("Start Date should not be earlier than latest phase!");
-                }
-            }
+            //if ($('.formulation-stages:last-child .formulation-stage:last-child').length) {
+            //    var latestDate = moment('01 ' + $('.formulation-stages:last-child .formulation-stage:last-child .end').html().trim(), "DD MMM YYYY");
+            //    if (mStartDate.isBefore(latestDate)) {
+            //        return alert("Start Date should not be earlier than latest phase!");
+            //    }
+            //}
 
             $.post($form.prop('action'), $form.serialize(), function (data) {
                 if (data.IsSuccess) {
                     var $stageTemplate = $('.formulation-stage-template').clone(true);
                     $stageTemplate.removeClass('formulation-stage-template');
                     $stageTemplate.addClass('formulation-stage');
-                    $stageTemplate.data('id', data.Id);
-                    $stageTemplate.find('.title').data('id', data.Id);
-                    $stageTemplate.find('.title').prepend(data.Title);
+                    $stageTemplate.attr('data-id', data.Id);
+                    $stageTemplate.attr('data-order', data.Order);
+                    $stageTemplate.find('.title').data('id',data.Id);
+                    $stageTemplate.find('.title').prepend('<span class="popover-edit-stage" data-toggle="popover">' + data.Title+'</span>');
                     $stageTemplate.find('.start').html(data.Start);
                     $stageTemplate.find('.end').html(data.End);
 
-                    var stages = $('.formulation-stages:last-child');
-                    if (stages.children('td').length == 4) {
-                        var $row = $('<tr />');
-                        $row.addClass('formulation-stages');
-                        $row.append($stageTemplate);
-                        stages.parent().append($row);
-                    } else {
-                        stages.append($stageTemplate);
+                    //reorder = 
+                    var stages = [];
+                    $('.formulation-stage').each(function(i, val){
+                        stages.push(val);
+                    });
+                    stages.push($stageTemplate[0]);
+                    stages = stages.sort(function (a, b) {
+                        console.log(parseInt($(a).data('order')) - parseInt($(b).data('order')));
+                        return parseInt($(a).data('order')) - parseInt($(b).data('order'));
+                    });
+
+                    var $table = $('.formulation-stages-table');
+                    $table.find('.formulation-stages').remove();
+
+                    for (var i = 0; i < stages.length; i += 4) {
+                        var $tr = $('<tr />');
+                        $tr.addClass('formulation-stages');
+                        for (var j = i; j < i + 4; j++) {
+                            if (j > stages.length) break;
+                            $tr.append(stages[j]);
+                        }
+                        $table.append($tr);
                     }
+
+                    //var stages = $('.formulation-stages:last-child');
+                    //if (stages.children('td').length == 4) {
+                    //    var $row = $('<tr />');
+                    //    $row.addClass('formulation-stages');
+                    //    $row.append($stageTemplate);
+                    //    stages.parent().append($row);
+                    //} else {
+                    //    stages.append($stageTemplate);
+                    //}
                    
                     //$('.formulation-stages').append($stageTemplate);
                     $trigger.popover('hide');
@@ -430,14 +460,42 @@ else
             if (!confirm("Are you sure to delte this item?")) {
                 return;
             }
+            if ($this.parent().hasClass('title') && $this.closest('td').find('.defined-list li').length != 0) {
+                alert('You must clear the description and key driver before delete this stge!');
+                return;
+            }
             $.post($this.prop('href'), 'id=' + $this.parent().data('id'), function (data) {
                 if (data.IsSuccess) {
                     var $parent = $this.parent();
                     if ($parent.hasClass('title')) {
+                        var $theStage = $parent.closest('.formulation-stage');
                         if ($parent.closest('tr').children('td').length == 1 && $parent.closest('table').find('tr').length > 2) {
                             $parent.closest('tr').remove();
                         } else {
                             $parent.closest('.formulation-stage').remove();
+                        }
+                        //reorder = 
+                        var stages = [];
+                        $('.formulation-stage').each(function (i, val) {
+                            stages.push(val);
+                        });
+                        stages = stages.sort(function (a, b) {
+                            console.log(parseInt($(a).data('order')) - parseInt($(b).data('order')));
+                            return parseInt($(a).data('order')) - parseInt($(b).data('order'));
+                        });
+
+                        var $table = $('.formulation-stages-table');
+                        $table.find('.formulation-stages').remove();
+
+
+                        for (var i = 0; i < stages.length; i += 4) {
+                            var $tr = $('<tr />');
+                            $tr.addClass('formulation-stages');
+                            for (var j = i; j < i + 4; j++) {
+                                if (j > stages.length) break;
+                                $tr.append(stages[j]);
+                            }
+                            $table.append($tr);
                         }
                     } else {
                         $parent.remove();
@@ -463,7 +521,93 @@ else
                 $(this).closest('form').submit();
             }
         });
+        $('.formulation-stages-wrapper').popover({
+            selector: '.popover-edit-stage',
+            html: true,
+            placement: 'bottom',
+            content: function () {
+                var $trigger = $(this);
+                var $form = $('.formulation-stage-form').clone(true);
+                var $stage = $trigger.closest('td');
+                var start = moment('01 ' + $stage.find('.start').html().trim(), 'DD MMM YYYY').format('MM/YYYY');
+                var end = moment('01 ' + $stage.find('.end').html().trim(), 'DD MMM YYYY').format('MM/YYYY');
+                $form.find('input[name="Title"]').attr('value',$trigger.html());
+                $form.find('input[name="StartDate"]').attr('value',start);
+                $form.find('input[name="EndDate"]').attr('value', end);
+                $form.find('input[name="Order"]').attr('value', $stage.data('order'));
+                $form.find('input[name="Id"]').attr('value', $stage.data('id'));
+                $form.find('.add-midterm-stage').removeClass('add-midterm-stage').addClass('edit-midterm-stage');
+                return $form.html();
+            }
+        });
+        $(document).on('click','.edit-midterm-stage', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $form = $(this).closest('form');
+            var $trigger = $this.closest('.popover').prev('span');
 
+            var months = {
+                Jan: 1, Feb: 1, Mar: 3, Apr: 4, May: 5, Jun: 6,
+                Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+            };
+
+            if (!$form.valid()) return;
+
+            var startDate = $form.find('input[name="StartDate"]').val();
+            var endDate = $form.find('input[name="EndDate"]').val();
+
+            var mStartDate = moment('01/' + startDate, "DD/MM/YYYY");
+            var mEndDate = moment('01/' + endDate, "DD/MM/YYYY");
+
+            if (!moment('01/' + startDate, "DD/MM/YYYY", true).isValid() || !moment('01/' + endDate, "DD/MM/YYYY", true).isValid()) {
+                return alert("Date format is not valid!");
+            }
+
+            if (mEndDate.isBefore(mStartDate)) {
+                return alert("End Date can't be earlier than Start Date!");
+            }
+            $.post($form.prop('action'), $form.serialize(), function (data) {
+                if (data.IsSuccess) {
+                    $stage = $trigger.closest('td');
+                    $stage.find('.title span').html(data.Title);
+                    $stage.find('.start').html(data.Start);
+                    $stage.find('.end').html(data.End);
+                    $stage.attr('data-order', data.Order);
+
+                    console.log($stage);
+
+                    //reorder = 
+                    var stages = [];
+                    $('.formulation-stage').each(function (i, val) {
+                        stages.push(val);
+                    });
+                    
+                    stages = stages.sort(function (a, b) {
+                        console.log(parseInt($(a).attr('data-order')) - parseInt($(b).attr('data-order')));
+                        return parseInt($(a).attr('data-order')) - parseInt($(b).attr('data-order'));
+                    });
+                    console.log(stages);
+
+                    $trigger.popover('hide');
+
+                    var $table = $('.formulation-stages-table');
+                    $table.find('.formulation-stages').remove();
+
+
+                    for (var i = 0; i < stages.length; i += 4) {
+                        var $tr = $('<tr />');
+                        $tr.addClass('formulation-stages');
+                        for (var j = i; j < i + 4; j++) {
+                            if (j > stages.length) break;
+                            $tr.append(stages[j]);
+                        }
+                        $table.append($tr);
+                    }
+
+
+                }
+            });
+        });
         //var popOverElem;
         //$(document).on('click', '.add-definition,.add-formulation-stage', function () {
         //    popOverElem = $(this);

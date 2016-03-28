@@ -10,7 +10,7 @@ namespace DSLNG.PEAR.Services.Interfaces
     {
         GetMidtermFormulationResponse Get(int id);
         GetMidtermFormulationResponse GetStagesByPbId(int id);
-        AddStageResponse AddStage(AddStageRequest request);
+        AddStageResponse SaveStage(AddStageRequest request);
         AddDefinitionResponse AddDefinition(AddDefinitionRequest request);
         BaseResponse DeleteStage(int id);
         BaseResponse DeleteStageDesc(int id);

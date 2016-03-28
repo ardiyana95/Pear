@@ -161,8 +161,9 @@ using DSLNG.PEAR.Services.Responses.PopInformation;
 using DSLNG.PEAR.Services.Requests.PopInformation;
 using DSLNG.PEAR.Services.Requests.Signature;
 using DSLNG.PEAR.Services.Responses.Der;
-using DSLNG.PEAR.Services.Responses.FileManager;
-using DSLNG.PEAR.Web.ViewModels;
+using DSLNG.PEAR.Web.ViewModels.MirConfiguration;
+using DSLNG.PEAR.Services.Requests.MirConfiguration;
+using DSLNG.PEAR.Services.Responses.MirConfiguration;
 
 namespace DSLNG.PEAR.Web.AutoMapper
 {
@@ -699,6 +700,11 @@ namespace DSLNG.PEAR.Web.AutoMapper
 
             Mapper.CreateMap<RejectVoyagePlanViewModel, RejectVoyagePlanRequest>();
             Mapper.CreateMap<RejectMidtermStrategyViewModel, RejectMidtermStrategyRequest>();
+            Mapper.CreateMap<SaveMirConfigurationViewModel, SaveMirConfigurationRequest>();
+            Mapper.CreateMap<GetMirConfigurationsResponse, SaveMirConfigurationViewModel>();
+            Mapper.CreateMap<GetMirConfigurationsResponse, ConfigureMirConfigurationViewModel>();
+            Mapper.CreateMap<GetMirConfigurationsResponse.MirDataTable, ConfigureMirConfigurationViewModel.MirDataTable>();
+            Mapper.CreateMap<GetMirConfigurationsResponse.MirDataTable.Kpi, ConfigureMirConfigurationViewModel.MirDataTable.Kpi>();
 
             base.Configure();
         }

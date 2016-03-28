@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DSLNG.PEAR.Data.Enums;
 using DSLNG.PEAR.Data.Entities.EconomicModel;
 using DSLNG.PEAR.Data.Entities.Blueprint;
+using DSLNG.PEAR.Data.Entities.Mir;
 
 namespace DSLNG.PEAR.Data.Entities
 {
@@ -50,5 +51,6 @@ namespace DSLNG.PEAR.Data.Entities
         public bool IsActive { get; set; }
         public ICollection<KeyOutputConfiguration> KeyOutputConfigurations { get; set; }
         public IList<MidtermStrategicPlanning> MidtermStrategicPlannings { get; set; }
+        public IList<MirDataTable> MirDataTables { get; set;  }
     }
 }

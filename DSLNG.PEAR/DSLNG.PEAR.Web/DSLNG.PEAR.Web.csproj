@@ -132,6 +132,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NReco.ImageGenerator, Version=1.0.3.0, Culture=neutral, PublicKeyToken=0ef6c878974c90ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\NReco.ImageGenerator.1.0.3.0\lib\net20\NReco.ImageGenerator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -759,8 +763,10 @@
     <Content Include="Third Party\Svg.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Compile Include="Controllers\ArtifactCloneController.cs" />
     <Compile Include="Controllers\AssumptionDataController.cs" />
-    <Compile Include="Controllers\ProcessBlueprintController.cs" />
+    <Compile Include="Controllers\MirConfigurationController.cs" />
+    <Compile Include="Controllers\MirDataTableController.cs" />
     <Compile Include="Extensions\NumberExtension.cs" />
     <Compile Include="ViewModels\DerLayout\CreateDerLayoutViewModel.cs" />
     <Compile Include="Controllers\DerController.cs" />
@@ -825,6 +831,9 @@
     <Compile Include="ViewModels\HighlightGroup\HighlightGroupViewModel.cs" />
     <Compile Include="ViewModels\Kpi\DetailKpiViewModel.cs" />
     <Compile Include="ViewModels\Kpi\UploadViewModel.cs" />
+    <Compile Include="ViewModels\MirConfiguration\ConfigureMirConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\MirConfiguration\MirConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\MirConfiguration\SaveMirConfigurationViewModel.cs" />
     <Compile Include="ViewModels\PlanningBlueprint\AnnualBusinessPlanViewModel.cs" />
     <Compile Include="ViewModels\PlanningBlueprint\RejectMidtermStrategyViewModel.cs" />
     <Compile Include="ViewModels\PlanningBlueprint\RejectVoyagePlanViewModel.cs" />
@@ -1054,6 +1063,7 @@
     <Content Include="Views\DerLayout\LayoutType\_LngAndCds.cshtml" />
     <Content Include="Views\DerLayout\LayoutType\_Security.cshtml" />
     <Content Include="Views\Der\Display\_Security.cshtml" />
+    <Content Include="Views\ArtifactClone\Display.cshtml" />
     <Content Include="Views\DerLayout\LayoutType\_Highlight.Edit.cshtml" />
     <Content Include="Views\Der\Display\_LngAndCds.cshtml" />
     <Content Include="Views\Der\OriginalData.cshtml" />
@@ -1203,9 +1213,12 @@
     <Content Include="Views\PlanningBlueprint\ESCategory.cshtml" />
     <Content Include="Views\PlanningBlueprint\CreateESCategory.cshtml" />
     <Content Include="Views\PlanningBlueprint\EditESCategory.cshtml" />
-    <Content Include="Views\ProcessBlueprint\Index.cshtml" />
-    <Content Include="Views\ProcessBlueprint\_FileManagerPartial.cshtml" />
-    <Content Include="Views\ProcessBlueprint\DataBindingPartial.cshtml" />
+    <Content Include="Views\PopDashboard\Approval.cshtml" />
+    <Content Include="Views\PopDashboard\Edit.cshtml" />
+    <Content Include="Views\MirConfiguration\Index.cshtml" />
+    <Content Include="Views\MirConfiguration\Create.cshtml" />
+    <Content Include="Views\MirConfiguration\Edit.cshtml" />
+    <Content Include="Views\MirConfiguration\Configure.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -1486,6 +1499,7 @@
     <Folder Include="Views\CorporatePortofolio\" />
     <Folder Include="Views\MidtermFormulation\" />
     <Folder Include="Views\MidtermStrategyPlanning\" />
+    <Folder Include="Views\MirDataTable\" />
     <Folder Include="Views\Signature\" />
     <Folder Include="Views\Test\" />
     <Folder Include="Views\UnAuthorize\" />

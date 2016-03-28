@@ -1,0 +1,98 @@
+﻿@model IEnumerable<DSLNG.PEAR.Web.ViewModels.MirConfiguration.MirConfigurationViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.Partial("_MessageResponse")
+<div class="add-button-wrapper">
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</div>
+
+
+<table id="mirConfiguration-table" class="table-transparent table table-bordered table-responsive" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Edit</th>
+            <th>Configure</th>
+            <th>Delete</th>
+            <th>IsActive</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#mirConfiguration-table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "iDisplayLength": -1,
+                "bProcessing": true,
+                "bServerSide": true,
+                "sServerMethod": "POST",
+                "sAjaxSource": '@Url.Action("Grid", "MirConfiguration")',
+                "order": [[1, "asc"]],
+                "aoColumns": [
+                    { "mDataProp": "Title", "name": "Title", "className": "dt-body-left" },
+                    {
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '',
+                        "mRender": function (data, type, row) {
+                            var editLink = '@Html.ActionLink("Edit", "Edit", "MirConfiguration", new { id = "_id_" }, null)'.replace('_id_', data.Id);
+                            return editLink
+                        }
+                    },
+                    {
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '',
+                        "mRender": function (data, type, row) {
+                            var configureLink = '@Html.ActionLink("Configure", "Configure", "MirConfiguration", new { id = "_id_" }, null)'.replace('_id_', data.Id);
+                            return configureLink;
+                        }
+                    },
+                    {
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '',
+                        "mRender": function (data, type, row) {
+                            var deleteLink = '<a class="delete" data-id="_id_" href="javascript:;">Delete</a>'.replace('_id_', data.Id);
+                            return deleteLink;
+                        }
+                    },
+                    {
+                        "mDataProp": "IsActive", "name": "IsActive", "render": function (data, type, row) {
+                            var checked = '';
+                            if (data) {
+                                checked = 'checked="checked"';
+                            }
+                            return '<input type="checkbox" class="editor-active" ' + checked + ' disabled="disabled">';
+                        },
+                    },
+                ],
+                rowCallback: function (row, data) {
+                    // Set the checked state of the checkbox in the table
+                    //$('input.is-active', row).prop('checked', data.IsActive == 1);
+                }
+            });
+
+            @*$('#mirConfiguration-table').on('click', '.delete', function () {
+                var id = $(this).attr('data-id');
+                if (confirm('Are you sure want to delete this item?' + id)) {
+                    var url = '@Url.Action("Delete", "PopDashboard")';
+                    var form = $('<form />');
+                    form.attr('action', url);
+                    form.attr('method', 'POST');
+                    form.html('<input type="hidden" name="id" value="' + id + '" />');
+                    $('body').append(form);
+                    form.submit();
+                }
+            });*@
+
+
+        });
+    </script>
+}

@@ -15,7 +15,7 @@ namespace DSLNG.PEAR.Web.Controllers
         }
         [HttpPost]
         public ActionResult AddStage(MidtermPhaseStageViewModel viewModel) {
-            var resp = _midtermFormulationService.AddStage(viewModel.MapTo<AddStageRequest>());
+            var resp = _midtermFormulationService.SaveStage(viewModel.MapTo<AddStageRequest>());
             return Json(resp);
         }
 

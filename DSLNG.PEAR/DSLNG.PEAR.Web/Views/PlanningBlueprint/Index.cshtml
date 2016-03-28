@@ -78,17 +78,15 @@
                          "defaultContent": '',
                          "mRender": function (data, type, row) {
                              if (row.BusinessPostureIdentification.IsRejected) {
-                                 return 'Rejected';
+                                 return '@Html.ActionLink("Rejected", "EnvironmentsScanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.EnvironmentsScanning.Id);
                              }
                              else
                              if (row.BusinessPostureIdentification.IsApproved) {
-                                 return 'Approved';
-                             }else if (row.BusinessPostureIdentification.IsBeingReviewed) {
-                                 return 'Being Reviewed';
-                             } else if (row.EnvironmentsScanning.IsLocked) {
-                                 return 'Ready';
+                                 return '@Html.ActionLink("Approved", "EnvironmentsScanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.EnvironmentsScanning.Id);
+                             } else if (row.BusinessPostureIdentification.IsBeingReviewed) {
+                                 return '@Html.ActionLink("Being Reviewed", "EnvironmentsScanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.EnvironmentsScanning.Id);
                              }
-                             return  '@Html.ActionLink("Edit", "EnvironmentsScanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.EnvironmentsScanning.Id);
+                             return  '@Html.ActionLink("Prepare", "EnvironmentsScanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.EnvironmentsScanning.Id);
                         }
                      },
                       {
@@ -97,16 +95,16 @@
                           "defaultContent": '',
                           "mRender": function (data, type, row) {
                               if (row.BusinessPostureIdentification.IsRejected) {
-                                  return 'Rejected';
+                                  return '@Html.ActionLink("Rejected", "BusinessPostureIdentification", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.BusinessPostureIdentification.Id);
                               }
                               else if (row.BusinessPostureIdentification.IsApproved) {
-                                  return 'Approved';
+                                  return '@Html.ActionLink("Approved", "BusinessPostureIdentification", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.BusinessPostureIdentification.Id);
                               } else if (row.BusinessPostureIdentification.IsBeingReviewed) {
-                                  return 'Being Reviewed';
+                                  return '@Html.ActionLink("Being Reviewed", "BusinessPostureIdentification", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.BusinessPostureIdentification.Id);
                               } else if (row.BusinessPostureIdentification.IsLocked) {
                                   return 'Locked';
                               }
-                              return '@Html.ActionLink("Edit", "BusinessPostureIdentification", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.BusinessPostureIdentification.Id);
+                              return '@Html.ActionLink("Prepare", "BusinessPostureIdentification", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.BusinessPostureIdentification.Id);
                          }
                       },
                       {
@@ -127,18 +125,16 @@
                           "defaultContent": '',
                           "mRender": function (data, type, row) {
                               if (row.MidtermStragetyPlanning.IsRejected) {
-                                  return 'Rejected';
+                                  return '@Html.ActionLink("Rejected", "MidtermPhaseFormulation", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermPhaseFormulation.Id);
                               } else
                               if (row.MidtermStragetyPlanning.IsApproved) {
-                                  return 'Approved';
+                                  return '@Html.ActionLink("Approved", "MidtermPhaseFormulation", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermPhaseFormulation.Id);
                               } else if (row.MidtermStragetyPlanning.IsBeingReviewed) {
-                                  return 'Being Reviewed';
-                              } else if (row.MidtermPhaseFormulation.IsLocked && !row.MidtermStragetyPlanning.IsLocked) {
-                                return 'Ready'
-                              } else if (row.MidtermPhaseFormulation.IsLocked) {
+                                  return '@Html.ActionLink("Being Reviewed", "MidtermPhaseFormulation", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermPhaseFormulation.Id);
+                              }  else if (row.MidtermPhaseFormulation.IsLocked) {
                                   return 'Locked';
                               }
-                              return '@Html.ActionLink("Edit", "MidtermPhaseFormulation", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermPhaseFormulation.Id);
+                              return '@Html.ActionLink("Prepare", "MidtermPhaseFormulation", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermPhaseFormulation.Id);
                           }
                       },
                       {
@@ -156,7 +152,7 @@
                               } else if (row.MidtermStragetyPlanning.IsLocked) {
                                   return 'Locked';
                               }
-                              return '@Html.ActionLink("Edit", "MidtermStrategyPlanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermStragetyPlanning.Id);
+                              return '@Html.ActionLink("Prepare", "MidtermStrategyPlanning", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', row.MidtermStragetyPlanning.Id);
                           }
                       },
                       {
@@ -177,7 +173,7 @@
                             if (data) {
                                 checked = 'checked="checked"';
                             }
-                            return '<input type="checkbox" class="editor-active" ' + checked + ' disabled="disabled">';
+                            return '<input type="checkbox" class="Prepareor-active" ' + checked + ' disabled="disabled">';
                         },
                     },
                     {
@@ -186,8 +182,8 @@
                         "defaultContent": '',
                         "mRender": function (data, type, row) {
                             var deleteLink = '<a class="delete" data-id="_id_" href="javascript:;">Delete</a>'.replace('_id_', data.Id);
-                            var editLink = '@Html.ActionLink("Edit", "Edit", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', data.Id);
-                            return editLink;
+                            var PrepareLink = '@Html.ActionLink("Prepare", "Prepare", "PlanningBlueprint", new {id = "_id_"}, null)'.replace('_id_', data.Id);
+                            return PrepareLink;
                         }
                     }
                 ],

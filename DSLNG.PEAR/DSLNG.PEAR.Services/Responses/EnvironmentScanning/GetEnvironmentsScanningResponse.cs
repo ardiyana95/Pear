@@ -11,6 +11,8 @@ namespace DSLNG.PEAR.Services.Responses.EnvironmentScanning
         public int Id { get; set; }
         public int BusinessPostureId { get; set; }
         public bool IsApproved { get; set; }
+        public bool IsBeingReviewed { get; set; }
+        public bool IsRejected { get; set; }
         public bool IsLocked { get; set; }
         public IList<UltimateObjective> ConstructionPhase { get; set; }
         public IList<UltimateObjective> OperationPhase { get; set; }

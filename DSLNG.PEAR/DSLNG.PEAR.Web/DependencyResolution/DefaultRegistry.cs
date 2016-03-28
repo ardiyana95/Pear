@@ -86,7 +86,8 @@ namespace DSLNG.PEAR.Web.DependencyResolution {
             For<IPopDashboardService>().Use<PopDashboardService>();
             For<IPopInformationService>().Use<PopInformationService>();
             For<ISignatureService>().Use<SignatureService>();
-            For<IProcessBlueprintServices>().Use<ProcessBlueprintServices>();
+            For<IMirConfigurationService>().Use<MirConfigurationService>();
+            For<IMirDataTableService>().Use<MirDataTableService>();
         }
 
         #endregion

@@ -2654,10 +2654,10 @@ table.kpis {
         right: 0;
     }
 
-.remove-midterm-planning,
+/*.remove-midterm-planning,
 .formulation-stages .formulation-stage .title .remove-item {
     display: none;
-}
+}*/
 
 .midterm-plannings:last-child .midterm-planning:last-child .remove-midterm-planning {
     display: block;

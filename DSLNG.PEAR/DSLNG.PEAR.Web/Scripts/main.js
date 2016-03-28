@@ -3279,7 +3279,11 @@ Number.prototype.format = function (n, x) {
             barachievement: 'column',
             baraccumulative: 'column'
         };
-        var plotOptions = {};
+        var plotOptions = {
+            series: {
+                animation: false
+            }
+        };
         var series = [];
         for (var i in data.MultiaxisChart.Charts) {
             //console.log(data.MultiaxisChart.Charts[i].SeriesType);

@@ -118,6 +118,10 @@
     <Compile Include="Entities\EconomicModel\Scenario.cs" />
     <Compile Include="Entities\ProcessBlueprint.cs" />
     <Compile Include="Entities\HighlightGroup.cs" />
+    <Compile Include="Entities\Mir\MirArtifact.cs" />
+    <Compile Include="Entities\Mir\MirConfiguration.cs" />
+    <Compile Include="Entities\Mir\MirDataTable.cs" />
+    <Compile Include="Entities\Mir\MirHighlight.cs" />
     <Compile Include="Entities\Pop\PopDashboard.cs" />
     <Compile Include="Entities\Pop\PopInformation.cs" />
     <Compile Include="Entities\Pop\Signature.cs" />
@@ -159,6 +163,9 @@
     <Compile Include="Enums\ConversionType.cs" />
     <Compile Include="Enums\EnvirontmentType.cs" />
     <Compile Include="Enums\Formula.cs" />
+    <Compile Include="Enums\MirArtifactType.cs" />
+    <Compile Include="Enums\MirHighlightType.cs" />
+    <Compile Include="Enums\MirTableType.cs" />
     <Compile Include="Enums\PeriodeStart.cs" />
     <Compile Include="Enums\MonthPeriode.cs" />
     <Compile Include="Entities\PmsSummaryScoringIndicator.cs" />

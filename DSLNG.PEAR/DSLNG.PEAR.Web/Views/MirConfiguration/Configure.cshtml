@@ -1,0 +1,49 @@
+﻿@model DSLNG.PEAR.Web.ViewModels.MirConfiguration.ConfigureMirConfigurationViewModel
+@{
+    ViewBag.Title = "Configure";
+}
+
+<div class="MirConfiguration-save">
+    @Html.HiddenFor(model => model.Id);
+    <div class="col-md-12">
+        <div><h4>QHSE Statistics</h4></div>
+        <div>
+            <a href="#" class="btn btn-primary add-kpi">Add KPI</a>
+            <div class="list-kpi">
+                <ul>
+                    @{
+                        foreach (var kpi in Model.MirDataTables.Where(x => x.Type == DSLNG.PEAR.Data.Enums.MirTableType.QhseStatistics).SelectMany(x => x.Kpis).ToList())
+                        {
+                            <li>@kpi.Name <a href="#" class="kpi-remove" data-id="@kpi.Id"><i class="fa fa-minus"></i></a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.add-kpi', function () {
+                alert('Test')
+            });
+
+            $(document).on('click', '.kpi-remove', function () {
+                var $this = $(this);
+                var $id = $this.data('id');
+                $.ajax({
+                    url: '@Url.Action("DeleteKpi", "MirDataTable")',
+                    data: {id : $id},
+                    type: 'POST',
+                    success: function (data) {
+
+                    }
+                });
+            });
+
+        });
+    </script>
+}

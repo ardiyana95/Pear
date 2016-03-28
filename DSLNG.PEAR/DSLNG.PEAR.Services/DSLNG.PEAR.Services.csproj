@@ -91,8 +91,13 @@
     <Compile Include="HighlightOrderService.cs" />
     <Compile Include="HighlightService.cs" />
     <Compile Include="Interfaces\GetDerLayoutResponse.cs" />
-    <Compile Include="Interfaces\IFilesManagerServices.cs" />
-    <Compile Include="ProcessBlueprintServices.cs" />
+    <Compile Include="Interfaces\IMirConfigurationService.cs" />
+    <Compile Include="Interfaces\IMirDataTableService.cs" />
+    <Compile Include="MirConfigurationService.cs" />
+    <Compile Include="MirDataTableService.cs" />
+    <Compile Include="Requests\MirConfiguration\GetMirConfigurationsRequest.cs" />
+    <Compile Include="Requests\MirConfiguration\SaveMirConfigurationRequest.cs" />
+    <Compile Include="Requests\MirDataTable\DeleteKpiMirDataTableRequest.cs" />
     <Compile Include="Requests\Der\GetKpiValueRequest.cs" />
     <Compile Include="Requests\Der\SaveLayoutItemRequest.cs" />
     <Compile Include="Requests\Der\SaveOriginalDataRequest.cs" />
@@ -220,6 +225,10 @@
     <Compile Include="Responses\MidtermPlanning\AddPlanningKpiResponse.cs" />
     <Compile Include="Responses\MidtermPlanning\GetMidtermPlanningsResponse.cs" />
     <Compile Include="Responses\MidtermPlanning\SubmitMidtermPlanningResponse.cs" />
+    <Compile Include="Responses\MirConfiguration\GetMirConfigurationsResponse.cs" />
+    <Compile Include="Responses\MirConfiguration\GetsMirConfigurationsResponse.cs" />
+    <Compile Include="Responses\MirConfiguration\SaveMirConfigurationResponse.cs" />
+    <Compile Include="Responses\MirDataTable\DeleteKpiMirDataTableResponse.cs" />
     <Compile Include="Responses\OperationalData\GetOperationDataConfigurationResponse.cs" />
     <Compile Include="Responses\OperationalData\GetOperationalDataDetailResponse.cs" />
     <Compile Include="Requests\OperationalData\GetOperationalDataDetailRequest.cs" />

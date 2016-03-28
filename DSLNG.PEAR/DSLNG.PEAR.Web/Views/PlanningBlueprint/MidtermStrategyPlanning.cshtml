@@ -11,6 +11,7 @@
             </div>
         </div>
         @{var count = Model.MidtermFormulationStages.Count;
+          var items = Model.MidtermFormulationStages.OrderBy(x => x.Order).ToList();
           <div class="row">
         <table class="formulation-stages-table">
             <tr>
@@ -19,11 +20,13 @@
                 <th style="width:25%">&nbsp;</th>
                 <th style="width:25%">&nbsp;</th>
             </tr>
-        @for (var i =0; i< count; i+= 4) { 
+        @for (var i = 0; i < count; i += 4)
+        { 
             <tr class="formulation-stages">
-                @for (var j = i; j<i+4; j++){
+                @for (var j = i; j < i + 4; j++)
+                {
                     if (j >= count) { break; }
-                    var item = Model.MidtermFormulationStages[j];
+                    var item = items[j];
                     <td data-relation-source="/MidtermStrategyPlanning/GetByStageId/@item.Id" data-id="@item.Id" class="formulation-stage">
                         <div>
                           <div data-id="@item.Id" class="title">@item.Title
@@ -68,7 +71,8 @@
     <div class="row">
         <div class="col-md-12">
             <h4 style="background-color: #00bfff;">Midterm Strategic Planning
-                @if(!Model.IsReviewer){
+                @if (!Model.IsReviewer)
+                {
                   <a class="add-strategic-planning"  data-toggle="popover" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
                 }
             </h4>
@@ -86,19 +90,26 @@
         </div>
      <div class="row">
         <div class="col-md-12 artifact-designer-btns">
-            @if(!Model.IsReviewer){
-            <a href="@Url.Action("Index", "PlanningBlueprint")" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span>Back To List</a>
-            }else{
-                <a href="@Url.Action("MPFReview", "PlanningBlueprint", new { id = Model.Id})" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span>Back</a>
-            }
-            @if(!Model.IsReviewer){
-            using (Html.BeginForm("SubmitMidtermPlanning", "PlanningBlueprint", FormMethod.Post, new { style = "display:inline" }))
+            @if (!Model.IsReviewer)
             {
+            <a href="@Url.Action("Index", "PlanningBlueprint")" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span> Back To List</a>
+            }
+            else
+            {
+                <a href="@Url.Action("MidtermPhaseFormulation", "PlanningBlueprint", new { id = Model.Id })" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span> Back</a>
+            }
+            @if (!Model.IsReviewer)
+            {
+                <a href="@Url.Action("MPFReview", "PlanningBlueprint", new { id = Model.Id })" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span> Back To MPF</a>
+                using (Html.BeginForm("SubmitMidtermPlanning", "PlanningBlueprint", FormMethod.Post, new { style = "display:inline" }))
+                {
                 @Html.Hidden("Id", Model.Id)
                 <button type="submit" class="btn btn-primary btn-lg submit-al-mp"><span class="fa fa-floppy-o"></span> Submit</button>
+                }
             }
-            }else{
-                 using (Html.BeginForm("ApproveMidtermStrategy", "PlanningBlueprint", FormMethod.Post, new { style = "display:inline" }))
+            else
+            {
+                using (Html.BeginForm("ApproveMidtermStrategy", "PlanningBlueprint", FormMethod.Post, new { style = "display:inline" }))
                 {
                 @Html.Hidden("Id", Model.Id)
                 <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-floppy-o"></span> Approve</button>
@@ -187,7 +198,7 @@
 
         <div class="modal-content">
              @using (Html.BeginForm("RejectMidtermStrategy", "PlanningBlueprint", FormMethod.Post, new { style = "display:inline" }))
-                {
+             {
             <div class="modal-header">
                 <button type="button" class="close btn-finish-relation" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">Notes</h3>
@@ -542,13 +553,14 @@
 
         $(document).on('click', '.target', function (e) {
             e.preventDefault();
+           
             var $this = $(this);
             if ($this.find('input').length) return;
-
+            
             var val = $this.html();
             $this.html('');
             var $input = $('<input />');
-            $input.prop('type', 'number');
+            $input.prop('type', 'text');
             $input.prop('name', 'Value');
             $input.css({ width: '100%',color:'#000' });
             if ($this.hasClass('target')) {
@@ -557,6 +569,7 @@
                 $input.addClass('economic-input');
             }
             $input.val(val);
+            console.log($input[0]);
             $this.append($input);
             $input.focus();
         });

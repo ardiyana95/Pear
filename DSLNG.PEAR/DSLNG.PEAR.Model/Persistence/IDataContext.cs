@@ -6,6 +6,7 @@ using Type = DSLNG.PEAR.Data.Entities.Type;
 using DSLNG.PEAR.Data.Entities.EconomicModel;
 using DSLNG.PEAR.Data.Entities.Blueprint;
 using DSLNG.PEAR.Data.Entities.Pop;
+using DSLNG.PEAR.Data.Entities.Mir;
 
 namespace DSLNG.PEAR.Data.Persistence
 {
@@ -99,8 +100,10 @@ namespace DSLNG.PEAR.Data.Persistence
         IDbSet<DerHighlight> DerHighlights { get; set; }
         IDbSet<DerStaticHighlight> DerStaticHighlights { get; set; }
         IDbSet<Wave> Waves { get; set; }
-
-        IDbSet<ProcessBlueprint> ProcessBlueprints { get; set; }
+        IDbSet<MirDataTable> MirDataTables { get; set; }
+        IDbSet<MirHighlight> MirHighlights { get; set; }
+        IDbSet<MirArtifact> MirArtifacts { get; set; }
+        IDbSet<MirConfiguration> MirConfigurations { get; set; }
         Database Database { get; }
         int SaveChanges();
         DbEntityEntry Entry(object entity);

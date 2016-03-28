@@ -8,7 +8,9 @@ namespace DSLNG.PEAR.Web.ViewModels.PlanningBlueprint
         public int Id { get; set; }
         public int PlanningBlueprintId { get; set; }
         public bool IsReviewer { get; set; }
-
+        public bool IsApproved { get; set; }
+        public bool IsRejected { get; set; }
+        public bool IsBeingReviewed { get; set; }
         //provoser or reviewer
         public bool IsLocked { get; set; }
 
