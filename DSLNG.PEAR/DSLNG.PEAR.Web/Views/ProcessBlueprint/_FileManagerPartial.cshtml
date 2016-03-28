@@ -1,0 +1,21 @@
+@*@model DevExpress.Web.FileSystemProviderBase*@
+
+@Html.DevExpress().FileManager(settings => {
+    settings.Name = "FileManager";
+    settings.CallbackRouteValues = new { Controller = "ProcessBlueprint", Action = "FileManagerPartial" };
+
+        settings.DownloadRouteValues = new { Controller = "ProcessBlueprint", Action = "FileManagerPartialDownload" };
+    settings.SettingsEditing.AllowDownload = true;
+
+    settings.Settings.ThumbnailFolder = Url.Content("~/Content/FileManager/Thumbnails");
+
+        settings.SettingsEditing.AllowCreate = true;
+            settings.SettingsEditing.AllowRename = true;
+            settings.SettingsEditing.AllowMove = true;
+            settings.SettingsEditing.AllowDelete = true;
+            settings.SettingsUpload.Enabled = true;
+            settings.SettingsUpload.UseAdvancedUploadMode = true;
+    settings.SettingsUpload.AdvancedModeSettings.EnableMultiSelect = true;
+
+    settings.SettingsFileList.View = DevExpress.Web.FileListView.Thumbnails;
+}).BindToFileSystemProvider(Model).GetHtml()

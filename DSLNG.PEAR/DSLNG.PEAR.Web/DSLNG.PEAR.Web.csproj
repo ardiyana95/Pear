@@ -760,6 +760,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Controllers\AssumptionDataController.cs" />
+    <Compile Include="Controllers\ProcessBlueprintController.cs" />
     <Compile Include="Extensions\NumberExtension.cs" />
     <Compile Include="ViewModels\DerLayout\CreateDerLayoutViewModel.cs" />
     <Compile Include="Controllers\DerController.cs" />
@@ -820,6 +821,7 @@
     <Compile Include="Grid\GridModelBinder.cs" />
     <Compile Include="Grid\GridParams.cs" />
     <Compile Include="ViewModels\EnvironmentScanning\EnvironmentScanningViewModel.cs" />
+    <Compile Include="ViewModels\ProcessBlueprintFileSystem.cs" />
     <Compile Include="ViewModels\HighlightGroup\HighlightGroupViewModel.cs" />
     <Compile Include="ViewModels\Kpi\DetailKpiViewModel.cs" />
     <Compile Include="ViewModels\Kpi\UploadViewModel.cs" />
@@ -1201,6 +1203,9 @@
     <Content Include="Views\PlanningBlueprint\ESCategory.cshtml" />
     <Content Include="Views\PlanningBlueprint\CreateESCategory.cshtml" />
     <Content Include="Views\PlanningBlueprint\EditESCategory.cshtml" />
+    <Content Include="Views\ProcessBlueprint\Index.cshtml" />
+    <Content Include="Views\ProcessBlueprint\_FileManagerPartial.cshtml" />
+    <Content Include="Views\ProcessBlueprint\DataBindingPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -1435,6 +1440,7 @@
     <Compile Include="ViewModels\PopDashboard\PopDashboardViewModel.cs" />
     <Compile Include="ViewModels\PopDashboard\PopInformationViewModel.cs" />
     <Compile Include="ViewModels\PopDashboard\SignatureViewModel.cs" />
+    <Compile Include="ViewModels\ProcessBlueprintViewModel.cs" />
     <Compile Include="ViewModels\RoleGroup\CreateRoleGroupViewModel.cs" />
     <Compile Include="ViewModels\RoleGroup\IndexRoleGroupViewModel.cs" />
     <Compile Include="ViewModels\RoleGroup\RoleGroupViewModel.cs" />
@@ -1467,6 +1473,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\FileManager\" />
     <Folder Include="Content\img\signature\" />
     <Folder Include="Content\signature\" />
     <Folder Include="Content\TemplateFiles\KpiAchievement\" />

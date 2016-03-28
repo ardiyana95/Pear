@@ -109,6 +109,7 @@ using DSLNG.PEAR.Services.Requests.PopInformation;
 using DSLNG.PEAR.Services.Responses.PopInformation;
 using PopInformationType = DSLNG.PEAR.Data.Enums.PopInformationType;
 using DSLNG.PEAR.Services.Requests.Signature;
+using DSLNG.PEAR.Services.Responses.FileManager;
 
 
 namespace DSLNG.PEAR.Services.AutoMapper
@@ -126,6 +127,7 @@ namespace DSLNG.PEAR.Services.AutoMapper
             ConfigureKeyOperation();
             ConfigureEconomicSummary();
             ConfigureDer();
+            ConfigureProcessBlueprint();
 
             Mapper.CreateMap<Data.Entities.User, GetUsersResponse.User>();
             Mapper.CreateMap<GetUsersResponse.User, Data.Entities.User>();
@@ -690,6 +692,12 @@ namespace DSLNG.PEAR.Services.AutoMapper
 
             Mapper.CreateMap<ApproveSignatureRequest, Signature>();
             base.Configure();
+        }
+
+        private void ConfigureProcessBlueprint()
+        {
+            Mapper.CreateMap<ProcessBlueprint, GetFileResponse>();
+            Mapper.CreateMap<ProcessBlueprint, GetFilesResponse.ProcessBlueprint>();
         }
 
         private void ConfigureEconomicSummary()

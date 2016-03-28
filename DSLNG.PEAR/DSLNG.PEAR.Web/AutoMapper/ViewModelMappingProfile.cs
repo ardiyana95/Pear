@@ -161,6 +161,8 @@ using DSLNG.PEAR.Services.Responses.PopInformation;
 using DSLNG.PEAR.Services.Requests.PopInformation;
 using DSLNG.PEAR.Services.Requests.Signature;
 using DSLNG.PEAR.Services.Responses.Der;
+using DSLNG.PEAR.Services.Responses.FileManager;
+using DSLNG.PEAR.Web.ViewModels;
 
 namespace DSLNG.PEAR.Web.AutoMapper
 {
@@ -177,6 +179,7 @@ namespace DSLNG.PEAR.Web.AutoMapper
             ConfigureOperationData();
             ConfigureEconomicSummary();
             ConfigureDerViewModel();
+            ConfigureProcessBlueprint();
 
             Mapper.CreateMap<Dropdown, SelectListItem>();
             Mapper.CreateMap<SearchKpiViewModel, GetKpiToSeriesRequest>();
@@ -698,6 +701,16 @@ namespace DSLNG.PEAR.Web.AutoMapper
             Mapper.CreateMap<RejectMidtermStrategyViewModel, RejectMidtermStrategyRequest>();
 
             base.Configure();
+        }
+
+        private void ConfigureProcessBlueprint()
+        {
+            Mapper.CreateMap<GetFilesResponse.ProcessBlueprint, ProcessBlueprintViewModel>();
+            Mapper.CreateMap<GetFileResponse, ProcessBlueprintViewModel>();
+            Mapper.CreateMap<GetFilesResponse.ProcessBlueprint, ProcessBlueprintFileItem>()
+                .ForMember(x => x.FileID, y => y.MapFrom(z => z.Id));
+            Mapper.CreateMap<GetFileResponse, ProcessBlueprintFileItem>()
+                .ForMember(dest => dest.FileID, opt => opt.MapFrom(src => src.Id));
         }
         
         private void ConfigureEconomicSummary()

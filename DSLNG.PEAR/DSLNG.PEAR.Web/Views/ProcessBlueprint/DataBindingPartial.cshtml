@@ -1,0 +1,19 @@
+﻿@Html.DevExpress().FileManager(
+    settings =>
+    {
+        settings.Name = "fileManager";
+        settings.CallbackRouteValues = new { Controller = "FileManager", Action = "DataBindingPartial" };
+        settings.Width = Unit.Percentage(100);
+
+        settings.Settings.AllowedFileExtensions = FileManagerDemoHelper.AllowedFileExtensions;
+        settings.Settings.InitialFolder = "Salvador Dali\\1936 - 1945";
+        settings.Settings.ThumbnailFolder = Url.Content("~/Content/FileManager/Thumbnails");
+
+        settings.SettingsFileList.ThumbnailsViewSettings.ThumbnailSize = 100;
+
+        settings.SettingsEditing.AllowCreate = true;
+        settings.SettingsEditing.AllowDelete = true;
+        settings.SettingsEditing.AllowMove = true;
+        settings.SettingsEditing.AllowRename = true;
+    }
+).BindToFileSystemProvider(Model).GetHtml()

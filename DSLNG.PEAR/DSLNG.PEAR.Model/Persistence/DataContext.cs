@@ -107,6 +107,7 @@ namespace DSLNG.PEAR.Data.Persistence
         public IDbSet<Signature> Signatures { get; set; }
         public IDbSet<ESCategory> ESCategories { get; set; }
 
+        public IDbSet<ProcessBlueprint> ProcessBlueprints { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Kpi>()

@@ -99,6 +99,8 @@ namespace DSLNG.PEAR.Data.Persistence
         IDbSet<DerHighlight> DerHighlights { get; set; }
         IDbSet<DerStaticHighlight> DerStaticHighlights { get; set; }
         IDbSet<Wave> Waves { get; set; }
+
+        IDbSet<ProcessBlueprint> ProcessBlueprints { get; set; }
         Database Database { get; }
         int SaveChanges();
         DbEntityEntry Entry(object entity);
