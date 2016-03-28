@@ -827,6 +827,7 @@
     <Compile Include="Grid\GridModelBinder.cs" />
     <Compile Include="Grid\GridParams.cs" />
     <Compile Include="ViewModels\EnvironmentScanning\EnvironmentScanningViewModel.cs" />
+    <Compile Include="ViewModels\ProcessBlueprintFileSystem.cs" />
     <Compile Include="ViewModels\HighlightGroup\HighlightGroupViewModel.cs" />
     <Compile Include="ViewModels\Kpi\DetailKpiViewModel.cs" />
     <Compile Include="ViewModels\Kpi\UploadViewModel.cs" />
@@ -1452,6 +1453,7 @@
     <Compile Include="ViewModels\PopDashboard\PopDashboardViewModel.cs" />
     <Compile Include="ViewModels\PopDashboard\PopInformationViewModel.cs" />
     <Compile Include="ViewModels\PopDashboard\SignatureViewModel.cs" />
+    <Compile Include="ViewModels\ProcessBlueprintViewModel.cs" />
     <Compile Include="ViewModels\RoleGroup\CreateRoleGroupViewModel.cs" />
     <Compile Include="ViewModels\RoleGroup\IndexRoleGroupViewModel.cs" />
     <Compile Include="ViewModels\RoleGroup\RoleGroupViewModel.cs" />
@@ -1484,6 +1486,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\FileManager\" />
     <Folder Include="Content\img\signature\" />
     <Folder Include="Content\signature\" />
     <Folder Include="Content\TemplateFiles\KpiAchievement\" />

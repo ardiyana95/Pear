@@ -116,6 +116,7 @@
     <Compile Include="Entities\EconomicModel\KeyAssumptionData.cs" />
     <Compile Include="Entities\EconomicModel\KeyOperationConfig.cs" />
     <Compile Include="Entities\EconomicModel\Scenario.cs" />
+    <Compile Include="Entities\ProcessBlueprint.cs" />
     <Compile Include="Entities\HighlightGroup.cs" />
     <Compile Include="Entities\Mir\MirArtifact.cs" />
     <Compile Include="Entities\Mir\MirConfiguration.cs" />
