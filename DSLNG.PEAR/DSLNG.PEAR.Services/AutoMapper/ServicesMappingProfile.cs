@@ -129,7 +129,6 @@ namespace DSLNG.PEAR.Services.AutoMapper
             ConfigureKeyOperation();
             ConfigureEconomicSummary();
             ConfigureDer();
-            ConfigureProcessBlueprint();
 
             Mapper.CreateMap<Data.Entities.User, GetUsersResponse.User>();
             Mapper.CreateMap<GetUsersResponse.User, Data.Entities.User>();
@@ -704,12 +703,6 @@ namespace DSLNG.PEAR.Services.AutoMapper
             Mapper.CreateMap<MirDataTable, GetMirConfigurationsResponse.MirDataTable>();
             Mapper.CreateMap<Kpi, GetMirConfigurationsResponse.MirDataTable.Kpi>();
             base.Configure();
-        }
-
-        private void ConfigureProcessBlueprint()
-        {
-            Mapper.CreateMap<ProcessBlueprint, GetFileResponse>();
-            Mapper.CreateMap<ProcessBlueprint, GetFilesResponse.ProcessBlueprint>();
         }
 
         private void ConfigureEconomicSummary()

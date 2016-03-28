@@ -112,7 +112,6 @@ namespace DSLNG.PEAR.Data.Persistence
         public IDbSet<MirArtifact> MirArtifacts { get; set; }
         public IDbSet<MirConfiguration> MirConfigurations { get; set; }
 
-        public IDbSet<ProcessBlueprint> ProcessBlueprints { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Kpi>()

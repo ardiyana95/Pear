@@ -75,20 +75,6 @@ namespace DSLNG.PEAR.Web.Controllers
                 //this._userAddToRole(user.Username, user.RoleName);
                 var profileData = new UserProfileSessionData { UserId = user.Id, Email = user.Email, Name = user.Username, RoleId = user.RoleId, RoleName = user.RoleName, RedirectUrl = user.ChangeModel, IsSuperAdmin = user.IsSuperAdmin };
                 this.Session["LoginUser"] = profileData;
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
-                    1,
-                    profileData.Name,
-                    DateTime.Now,
-                    DateTime.Now.AddMinutes(30),
-                    false,
-                    profileData.RoleName,
-                    FormsAuthentication.FormsCookiePath
-                    );
-                string encryptedTicket = FormsAuthentication.Encrypt(ticket);
-                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                cookie.HttpOnly = true;
-                Response.Cookies.Add(cookie);
-
                 FormsAuthentication.SetAuthCookie(user.Username, false);
                 return user.IsSuccess;
             }

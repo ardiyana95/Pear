@@ -101,7 +101,6 @@
     <Compile Include="Requests\Der\GetKpiValueRequest.cs" />
     <Compile Include="Requests\Der\SaveLayoutItemRequest.cs" />
     <Compile Include="Requests\Der\SaveOriginalDataRequest.cs" />
-    <Compile Include="Requests\ProcessBlueprint\GetFilesRequest.cs" />
     <Compile Include="Requests\Signature\ApproveSignatureRequest.cs" />
     <Compile Include="Requests\PlanningBlueprint\KpiEconomicInputRequest.cs" />
     <Compile Include="Requests\PlanningBlueprint\KpiTargetInputRequest.cs" />
@@ -211,7 +210,6 @@
     <Compile Include="Responses\EnvironmentScanning\SaveEnvironmentalScanningResponse.cs" />
     <Compile Include="Responses\EnvironmentScanning\SaveEnvironmentScanningResponse.cs" />
     <Compile Include="Responses\EnvironmentScanning\SubmitEnvironmentsScanningResponse.cs" />
-    <Compile Include="Responses\FileManager\GetFileResponse.cs" />
     <Compile Include="Responses\HighlightGroup\DeleteHighlightGroupResponse.cs" />
     <Compile Include="Responses\HighlightOrder\GetStaticHighlightOrdersResponse.cs" />
     <Compile Include="Responses\HighlightOrder\SaveStaticHighlightOrderResponse.cs" />
